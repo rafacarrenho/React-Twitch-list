@@ -8,7 +8,7 @@
 }
 
 .streamer:first-of-type {
-  margin-top: 80px;
+  margin-top: 120px;
 }
 
 .streamer img {
@@ -32,4 +32,20 @@
 
 .streamerData a:hover {
   color: #4b0caa;
+}
+
+.mainContainer {
+  min-height: 100vh;
+}
+
+@media screen and (max-width: 772px) {
+  .streamer {
+    flex-direction: column;
+  }
+
+  .streamer img {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
 }

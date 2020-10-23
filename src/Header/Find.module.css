@@ -1,0 +1,17 @@
+.finder {
+  padding: 8px;
+  width: 100%;
+  max-width: 100%;
+  outline: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: 0.2s ease;
+}
+
+.finder:focus,
+.finder:hover {
+  outline: none;
+  border-color: #4b0caa;
+  background: white;
+  box-shadow: 0 0 4px #772ce8;
+}

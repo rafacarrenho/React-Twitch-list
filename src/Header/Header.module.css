@@ -4,6 +4,7 @@
   width: 100%;
   top: 0;
   left: 0;
+  padding: 4px 0;
   box-shadow: 0 0 8px #ac90d6;
 }
 
@@ -12,4 +13,11 @@
   justify-content: space-between;
   height: 60px;
   align-items: center;
+}
+
+@media screen and (max-width: 772px) {
+  .headerContainer {
+    flex-direction: column;
+    height: 80px;
+  }
 }

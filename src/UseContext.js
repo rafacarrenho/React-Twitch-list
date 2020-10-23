@@ -7,7 +7,6 @@ export const UserStorage = ({ children }) => {
   const [token, setToken] = React.useState(null);
   const [streams, setStreams] = React.useState(null);
   const [order, setOrder] = React.useState(null);
-  const [pesquisa, setPesquisa] = React.useState(null);
   const [filtersStreams, setfiltersStreams] = React.useState(null);
 
   React.useEffect(() => {
@@ -57,7 +56,6 @@ export const UserStorage = ({ children }) => {
       } catch (err) {
       } finally {
         setfiltersStreams(streams);
-        console.log(filtersStreams);
       }
     }
     getSteams();
@@ -67,36 +65,11 @@ export const UserStorage = ({ children }) => {
     setfiltersStreams(streams);
   }, [streams]);
 
-  // Tamanho da Foto
-  function replaceWidthHeight(url) {
-    // const width = 600;
-    // const height = 400;
-    // return url.replace("{width}", width).replace("{height}", height);
-    return url.replace("-{width}x{height}", "");
-  }
-
-  // Tempo de Streaming
-  function streamTime(time) {
-    const streamDate = Date.parse(time);
-    const now = new Date().getTime();
-    const dateTimeStream = now - streamDate;
-    const streamingMin = Math.round(
-      ((dateTimeStream % 86400000) % 3600000) / 60000,
-      1
-    );
-    const streaminghour = Math.floor((dateTimeStream % 86400000) / 3600000);
-    return `${streaminghour}h ${streamingMin}min`;
-  }
-
-  function handleChange(texto) {
-    let filterArray = streams.filter((el) => {
-      return el.user_name.toLowerCase().includes(texto.toLowerCase());
-    });
-    setfiltersStreams(filterArray);
-    console.log(filtersStreams);
-  }
-
   return (
-    <UserContext.Provider value={{ token }}>{children}</UserContext.Provider>
+    <UserContext.Provider
+      value={{ token, setOrder, setfiltersStreams, streams, filtersStreams }}
+    >
+      {children}
+    </UserContext.Provider>
   );
 };

@@ -1,12 +1,14 @@
 import React from "react";
+import Find from "./Find";
 import styles from "./Header.module.css";
+import OrderBy from "./OrderBy";
 
 const Header = () => {
   return (
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer} `}>
-        <div>Buscar por Streamer/Titulo</div>
-        <div>Ordernar por</div>
+        <Find></Find>
+        <OrderBy></OrderBy>
       </div>
     </header>
   );
