@@ -1,9 +1,9 @@
 import React from "react";
-import "../App.css";
-import { GET_STREAMS, TOKEN_POST } from "../Api";
-import styles from "./Content.module.css";
+import { GET_STREAMS, TOKEN_POST } from "./Api";
 
-const Content = () => {
+export const UserContext = React.createContext();
+
+export const UserStorage = ({ children }) => {
   const [token, setToken] = React.useState(null);
   const [streams, setStreams] = React.useState(null);
   const [order, setOrder] = React.useState(null);
@@ -97,62 +97,6 @@ const Content = () => {
   }
 
   return (
-    <div className="container" style={{ margin: "70px" }}>
-      <button
-        onClick={() => {
-          setOrder("viewers");
-        }}
-      >
-        Viewer
-      </button>
-      <button
-        onClick={() => {
-          setOrder("nome");
-        }}
-      >
-        Titulo
-      </button>
-      <button
-        onClick={() => {
-          setOrder("tempo");
-        }}
-      >
-        Duração
-      </button>
-
-      <div>
-        <input
-          type="text"
-          onChange={({ target }) => handleChange(target.value)}
-        />
-        {/* {filtersStreams && <h1>{filtersStreams}</h1>} */}
-      </div>
-      {filtersStreams &&
-        filtersStreams.map((itens) => (
-          <div key={itens.id} className={styles.streamer}>
-            <img src={replaceWidthHeight(itens.thumbnail_url)} alt="" />
-
-            <div className={styles.streamerData}>
-              <a
-                href={`https://twitch.tv/${itens.user_name}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {itens.user_name}
-              </a>
-              <h3>{itens.title}</h3>
-              <p>
-                <b>Viewer:</b> {itens.viewer_count}
-              </p>
-              <p>
-                <b>Stremando à: </b>
-                {streamTime(itens.started_at)}
-              </p>
-            </div>
-          </div>
-        ))}
-    </div>
+    <UserContext.Provider value={{ token }}>{children}</UserContext.Provider>
   );
 };
-
-export default Content;
