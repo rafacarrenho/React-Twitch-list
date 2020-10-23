@@ -25,3 +25,16 @@ export function GET_STREAMS(token) {
     },
   };
 }
+
+export function GET_GAMES(token, gameId) {
+  return {
+    url: `https://api.twitch.tv/helix/games?id=${gameId}`,
+    options: {
+      method: "GET",
+      headers: {
+        "Client-ID": clienteId,
+        Authorization: "Bearer " + token,
+      },
+    },
+  };
+}

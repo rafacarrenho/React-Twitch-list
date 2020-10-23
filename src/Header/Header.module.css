@@ -1,0 +1,15 @@
+.header {
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-shadow: 0 0 8px #ac90d6;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  align-items: center;
+}
