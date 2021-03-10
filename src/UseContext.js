@@ -4,19 +4,17 @@ import { GET_STREAMS, TOKEN_POST } from "./Api";
 export const UserContext = React.createContext();
 
 export const UserStorage = ({ children }) => {
-  const [token, setToken] = React.useState(null);
   const [streams, setStreams] = React.useState(null);
   const [order, setOrder] = React.useState(null);
   const [filtersStreams, setfiltersStreams] = React.useState(null);
 
   React.useEffect(() => {
-    async function getToken() {
-      const { url, options } = TOKEN_POST();
-      const response = await fetch(url, options);
-      const json = await response.json();
-      setToken(json.access_token);
-    }
-    getToken();
+    TOKEN_POST().then((res) => {
+      const token = res.data.access_token;
+      GET_STREAMS(token).then((res) => {
+        setStreams(res.data.data);
+      });
+    });
   }, []);
 
   React.useEffect(() => {
@@ -44,30 +42,11 @@ export const UserStorage = ({ children }) => {
       });
       setfiltersStreams(sortViewers);
     }
-  }, [order]);
-
-  React.useEffect(() => {
-    async function getSteams() {
-      try {
-        const { url, options } = GET_STREAMS(token);
-        const response = await fetch(url, options);
-        const json = await response.json();
-        if (json.data) setStreams(json.data);
-      } catch (err) {
-      } finally {
-        setfiltersStreams(streams);
-      }
-    }
-    getSteams();
-  }, [token]);
-
-  React.useEffect(() => {
-    setfiltersStreams(streams);
-  }, [streams]);
+  }, [filtersStreams, order]);
 
   return (
     <UserContext.Provider
-      value={{ token, setOrder, setfiltersStreams, streams, filtersStreams }}
+      value={{ setOrder, setfiltersStreams, streams, filtersStreams }}
     >
       {children}
     </UserContext.Provider>

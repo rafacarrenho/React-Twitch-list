@@ -3,8 +3,7 @@ import styles from "./Content.module.css";
 import { UserContext } from "../UseContext";
 
 const Content = () => {
-  const { filtersStreams } = React.useContext(UserContext);
-
+  const { streams } = React.useContext(UserContext);
   // Tamanho da Foto
   function replaceWidthHeight(url) {
     // const width = 600;
@@ -29,8 +28,8 @@ const Content = () => {
   return (
     <div className="container">
       <div className={styles.mainContainer}>
-        {filtersStreams &&
-          filtersStreams.map((itens) => (
+        {streams &&
+          streams.map((itens) => (
             <div key={itens.id} className={styles.streamer}>
               <img src={replaceWidthHeight(itens.thumbnail_url)} alt="" />
 
