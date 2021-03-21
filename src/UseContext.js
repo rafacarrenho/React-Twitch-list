@@ -5,8 +5,8 @@ export const UserContext = React.createContext();
 
 export const UserStorage = ({ children }) => {
   const [streams, setStreams] = React.useState(null);
-  const [order, setOrder] = React.useState(null);
-  const [filtersStreams, setfiltersStreams] = React.useState(null);
+  const [filter, setFilter] = React.useState("");
+  const [order, setOrder] = React.useState("viewers");
 
   React.useEffect(() => {
     TOKEN_POST().then((res) => {
@@ -17,36 +17,49 @@ export const UserStorage = ({ children }) => {
     });
   }, []);
 
-  React.useEffect(() => {
+  const reorder = (streams) => {
+    let result = null;
     if (order === "nome") {
-      let sortTitle = [...filtersStreams].sort(function (a, b) {
+      let sortTitle = [...streams].sort(function (a, b) {
         if (a.title > b.title) return 1;
         if (a.title < b.title) return -1;
         return 0;
       });
-      setfiltersStreams(sortTitle);
+      result = sortTitle;
     }
     if (order === "tempo") {
-      let sortTime = [...filtersStreams].sort(function (a, b) {
+      let sortTime = [...streams].sort(function (a, b) {
         if (a.started_at > b.started_at) return 1;
         if (a.started_at < b.started_at) return -1;
         return 0;
       });
-      setfiltersStreams(sortTime);
+      result = sortTime;
     }
     if (order === "viewers") {
-      let sortViewers = [...filtersStreams].sort(function (a, b) {
+      let sortViewers = [...streams].sort(function (a, b) {
         if (a.viewer_count < b.viewer_count) return 1;
         if (a.viewer_count > b.viewer_count) return -1;
         return 0;
       });
-      setfiltersStreams(sortViewers);
+      result = sortViewers;
     }
-  }, [filtersStreams, order]);
+    return result;
+  };
+
+  const filteredStreams =
+    streams &&
+    reorder(
+      streams.filter((stream) => {
+        return (
+          stream.title.toLowerCase().includes(filter.toLowerCase()) ||
+          stream.user_name.toLowerCase().includes(filter.toLowerCase())
+        );
+      })
+    );
 
   return (
     <UserContext.Provider
-      value={{ setOrder, setfiltersStreams, streams, filtersStreams }}
+      value={{ setOrder, streams, filteredStreams, filter, setFilter }}
     >
       {children}
     </UserContext.Provider>
